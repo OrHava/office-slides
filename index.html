@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
 <title>Slides</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
@@ -39,7 +39,7 @@ main{flex:1;display:flex;overflow:hidden}
 .thumb.drag{opacity:.4}
 .stage{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--bg)}
 .canvasWrap{flex:1;display:flex;align-items:center;justify-content:center;overflow:auto;padding:20px}
-.slide{width:960px;height:540px;background:#fff;position:relative;overflow:hidden;box-shadow:0 2px 6px rgba(0,0,0,.2),0 14px 40px rgba(0,0,0,.12);transform-origin:center;flex:none;font-family:var(--ui)}
+.slide{touch-action:none;width:960px;height:540px;background:#fff;position:relative;overflow:hidden;box-shadow:0 2px 6px rgba(0,0,0,.2),0 14px 40px rgba(0,0,0,.12);transform-origin:center;flex:none;font-family:var(--ui)}
 .el{position:absolute;box-sizing:border-box;user-select:none}
 .el.text{padding:8px 12px;overflow:hidden;word-wrap:break-word;white-space:pre-wrap;line-height:1.3}
 .el.text .ed{outline:none;width:100%;height:100%;overflow:hidden}
@@ -71,14 +71,33 @@ dialog .actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}di
 #show .laser{position:absolute;width:12px;height:12px;border-radius:50%;background:#ff2d2d;box-shadow:0 0 12px #ff2d2d;pointer-events:none;display:none;z-index:5}
 .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:8px;font-size:13px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:200}.toast.show{opacity:1}
 .ctx{position:fixed;background:var(--panel);border:1px solid var(--line);border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.14);padding:6px;display:none;z-index:60;min-width:180px}.ctx.show{display:block}.ctx button{width:100%;text-align:left;padding:7px 10px;font-size:13px}
-@media (max-width:1000px){.props{display:none}.filmstrip{width:130px}}
+@media (max-width:1000px){
+  body{padding-top:env(safe-area-inset-top)}
+  header{padding:6px 8px;gap:6px;overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none}header::-webkit-scrollbar{display:none}
+  .brand span{display:none}#title{min-width:110px;width:130px;flex:none}.status #saved{display:none}.present{padding:7px 10px}
+  .menu > button{white-space:nowrap}.menu ul{position:fixed;left:8px;right:8px;top:auto;max-height:70vh;overflow:auto;font-size:15px}
+  .toolbar{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding:4px 6px}.toolbar::-webkit-scrollbar{display:none}.toolbar .g{flex:none}.toolbar button{min-width:36px;height:36px;font-size:16px}
+  main{flex-direction:column}
+  .filmstrip{width:100%;height:92px;order:3;border-right:0;border-top:1px solid var(--line);display:flex;gap:8px;padding:8px;overflow-x:auto;overflow-y:hidden;flex:none}
+  .thumb{margin:0;flex:none;width:128px}.thumb .tv{aspect-ratio:16/9}
+  .stage{order:1;flex:1;min-height:0}.canvasWrap{padding:8px;overflow:hidden}
+  .notes{height:auto;max-height:90px}.notes textarea{min-height:40px}
+  .props{position:fixed;left:0;right:0;bottom:0;width:auto;max-height:60vh;border-left:0;border-top:1px solid var(--line);border-radius:16px 16px 0 0;box-shadow:0 -8px 30px rgba(0,0,0,.25);z-index:45;transform:translateY(100%);transition:transform .2s;padding-bottom:calc(12px + env(safe-area-inset-bottom))}
+  .props.open{transform:none}
+  .props::before{content:"";display:block;width:40px;height:4px;border-radius:2px;background:var(--line);margin:-4px auto 10px}
+  #propsBtn{display:inline-flex!important}
+  dialog{width:94vw;max-width:94vw;padding:16px}dialog input,dialog select,input,select{font-size:16px}
+  .ctx{min-width:220px}.ctx button{padding:11px 12px;font-size:15px}
+  .h{width:18px!important;height:18px!important}.h.nw{left:-10px!important;top:-10px!important}.h.ne{right:-10px!important;top:-10px!important}.h.sw{left:-10px!important;bottom:-10px!important}.h.se{right:-10px!important;bottom:-10px!important}.h.n,.h.s{left:calc(50% - 9px)!important}.h.w,.h.e{top:calc(50% - 9px)!important}.h.rot{top:-40px!important;left:calc(50% - 9px)!important}
+}
+#propsBtn{display:none}
 @media print{body *{visibility:hidden}#printArea,#printArea *{visibility:visible}#printArea{position:absolute;inset:0;display:block!important}#printArea .slide{page-break-after:always;transform:none!important;box-shadow:none;margin:0 auto}}
 @page{size:landscape;margin:0}
 </style>
 </head>
 <body>
 <header>
-  <div class="brand"><i></i>Slides</div>
+  <div class="brand"><i></i><span>Slides</span></div>
   <input id="title" placeholder="Untitled presentation" spellcheck="false">
   <div class="menu" id="m-file"><button>File</button><ul>
     <li><button data-cmd="new">New presentation</button></li>
@@ -131,7 +150,7 @@ dialog .actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}di
   <div class="menu" id="m-view"><button>View</button><ul>
     <li><button data-cmd="theme">Toggle dark mode</button></li><li><button data-cmd="grid">Toggle grid</button></li><li><button data-cmd="present-from">Present from current slide</button></li>
   </ul></div>
-  <div class="status"><span id="saved">Saved</span><button class="present" data-cmd="present">▶ Present</button></div>
+  <div class="status"><span id="saved">Saved</span><button id="propsBtn" title="Properties">⚙</button><button class="present" data-cmd="present">▶ Present</button></div>
 </header>
 <div class="toolbar" id="tb">
   <div class="g"><button data-cmd="undo" title="Undo"><svg viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></svg></button><button data-cmd="redo" title="Redo"><svg viewBox="0 0 24 24"><path d="m15 14 5-5-5-5"/><path d="M20 9H9a5 5 0 0 0 0 10h3"/></svg></button></div>
@@ -265,7 +284,7 @@ function renderFilm(){
     f.appendChild(d);});
   const t=document.getElementById('film').querySelector('.active');if(t)t.scrollIntoView({block:'nearest'});
 }
-function applyZoom(){const w=document.getElementById('wrap');let z=zoom;if(zoom==='fit'){z=Math.min((w.clientWidth-40)/960,(w.clientHeight-40)/540);}slide.style.transform=`scale(${z})`;slide.style.margin=`${(540*z-540)/2}px ${(960*z-960)/2}px`;slide._z=z;}
+function applyZoom(){const w=document.getElementById('wrap');let z=zoom;if(zoom==='fit'){z=Math.min((w.clientWidth-16)/960,(w.clientHeight-16)/540);}slide._z=z;if(matchMedia('(max-width:1000px)').matches){w.style.position='relative';slide.style.position='absolute';slide.style.transformOrigin='0 0';slide.style.margin='0';slide.style.left=Math.max(0,(w.clientWidth-960*z)/2)+'px';slide.style.top=Math.max(0,(w.clientHeight-540*z)/2)+'px';slide.style.transform=`scale(${z})`;}else{w.style.position='';slide.style.position='';slide.style.transformOrigin='';slide.style.left='';slide.style.top='';slide.style.transform=`scale(${z})`;slide.style.margin=`${(540*z-540)/2}px ${(960*z-960)/2}px`;}}
 window.addEventListener('resize',applyZoom);
 document.getElementById('zoom').onchange=e=>{zoom=e.target.value==='fit'?'fit':+e.target.value;applyZoom();};
 
@@ -307,7 +326,8 @@ function findEl(id,els=S().els){for(const e of els){if(e.id===id)return e;}retur
 /* ===== selection / drag / resize ===== */
 let drag=null,editing=null;
 const z=()=>slide._z||1;
-slide.addEventListener('mousedown',e=>{
+slide.addEventListener('pointerdown',e=>{
+  if(e.pointerType==='mouse'&&e.button!==0)return;if(e.pointerType!=='mouse'&&editing)return;
   if(editing){if(editing.contains(e.target))return;stopEdit();}
   const d=e.target.closest('.el');const hnd=e.target.closest('.h');
   if(hnd&&sel.length===1){e.preventDefault();const o=findEl(sel[0]);drag={mode:hnd.dataset.h,id:o.id,sx:e.clientX,sy:e.clientY,o:{...o},cx:o.x+o.w/2,cy:o.y+o.h/2};snap();return;}
@@ -316,14 +336,14 @@ slide.addEventListener('mousedown',e=>{
   render();e.preventDefault();
   drag={mode:'move',sx:e.clientX,sy:e.clientY,orig:sel.map(i=>({id:i,...findEl(i)})),moved:false};
 });
-document.addEventListener('mousemove',e=>{
-  if(!drag)return;const dx=(e.clientX-drag.sx)/z(),dy=(e.clientY-drag.sy)/z();
+document.addEventListener('pointermove',e=>{
+  if(!drag)return;if(e.pointerType!=='mouse')e.preventDefault();const dx=(e.clientX-drag.sx)/z(),dy=(e.clientY-drag.sy)/z();
   if(drag.mode==='move'){if(!drag.moved&&(Math.abs(dx)>2||Math.abs(dy)>2)){drag.moved=true;snap();}if(!drag.moved)return;drag.orig.forEach(o=>{const x=findEl(o.id);let nx=o.x+dx,ny=o.y+dy;if(gridOn||e.altKey){nx=Math.round(nx/10)*10;ny=Math.round(ny/10)*10;}x.x=nx;x.y=ny;});}
   else if(drag.mode==='rot'){const x=findEl(drag.id);const r=slide.getBoundingClientRect();const cx=r.left+drag.cx*z(),cy=r.top+drag.cy*z();x.rot=Math.round((Math.atan2(e.clientY-cy,e.clientX-cx)*180/Math.PI+90)/(e.shiftKey?15:1))*(e.shiftKey?15:1);}
   else{const x=findEl(drag.id),o=drag.o,m=drag.mode;if(m.includes('e'))x.w=Math.max(20,o.w+dx);if(m.includes('s'))x.h=Math.max(20,o.h+dy);if(m.includes('w')){x.w=Math.max(20,o.w-dx);x.x=o.x+o.w-x.w;}if(m.includes('n')){x.h=Math.max(20,o.h-dy);x.y=o.y+o.h-x.h;}if(e.shiftKey&&m.length===2){x.h=x.w*o.h/o.w;}}
   liveUpdate();
 });
-document.addEventListener('mouseup',()=>{if(drag){if(drag.mode!=='move'||drag.moved)commit();drag=null;renderProps();}});
+document.addEventListener('pointerup',()=>{if(drag){if(drag.mode!=='move'||drag.moved)commit();drag=null;renderProps();}});
 function liveUpdate(){sel.forEach(id=>{const e=findEl(id),d=slide.querySelector(`[data-id="${id}"]`);if(d){d.style.left=e.x+'px';d.style.top=e.y+'px';d.style.width=e.w+'px';d.style.height=e.h+'px';d.style.transform=`rotate(${e.rot||0}deg)`;if(e.type==='shape')d.innerHTML=shapeSVG(e)+(d.querySelector('.h')?[...d.querySelectorAll('.h')].map(h=>h.outerHTML).join(''):'');if(e.type==='chart')d.innerHTML=chartSVG(e,T())+[...d.querySelectorAll('.h')].map(h=>h.outerHTML).join('');}});}
 slide.addEventListener('dblclick',e=>{const d=e.target.closest('.el.text');if(d)startEdit(d);const tb=e.target.closest('.el.table');if(tb)editTableCell(e,tb);});
 function startEdit(d){const ed=d.querySelector('.ed');ed.contentEditable='true';ed.focus();editing=d;d.querySelectorAll('.h').forEach(h=>h.remove());document.execCommand('selectAll');}
@@ -470,6 +490,16 @@ async function exportPptx(){
   await pptx.writeFile({fileName:cur.name+'.pptx'});toast('PowerPoint file downloaded');
 }
 
+/* ===== mobile ===== */
+const isMobile=()=>matchMedia('(max-width:1000px)').matches;
+document.getElementById('propsBtn').onclick=()=>document.getElementById('props').classList.toggle('open');
+document.getElementById('wrap').addEventListener('pointerdown',e=>{if(!e.target.closest('.props'))document.getElementById('props').classList.remove('open');});
+if(isMobile()){zoom='fit';document.getElementById('zoom').value='fit';}
+let lp;slide.addEventListener('pointerdown',e=>{if(e.pointerType==='mouse')return;clearTimeout(lp);const x=e.clientX,y=e.clientY;lp=setTimeout(()=>{drag=null;slide.dispatchEvent(new MouseEvent('contextmenu',{clientX:x,clientY:y,bubbles:true}));},550);});
+['pointermove','pointerup','pointercancel'].forEach(ev=>slide.addEventListener(ev,e=>{if(ev==='pointermove'&&drag&&Math.abs(e.clientX-drag.sx)<6&&Math.abs(e.clientY-drag.sy)<6)return;clearTimeout(lp);}));
+// tap an already-selected text box to edit (no dblclick on touch)
+let lastTap=null;slide.addEventListener('pointerup',e=>{if(e.pointerType==='mouse')return;const d=e.target.closest('.el.text');const id=d?d.dataset.id:null;if(d&&lastTap===id&&drag&&!drag.moved){startEdit(d);lastTap=null;return;}lastTap=id;});
+window.addEventListener('resize',()=>{if(zoom==='fit')applyZoom();});
 /* ===== init ===== */
 document.documentElement.dataset.theme=localStorage.getItem('slides.theme')||'';
 cmds['open-list']=()=>{const l=document.getElementById('presList');l.innerHTML=pres.map(p=>`<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line)"><span>${esc(p.name)}<br><small style="color:var(--muted)">${p.slides.length} slides · ${new Date(p.updated).toLocaleString()}</small></span><button data-open="${p.id}" style="color:var(--accent)">Open</button></div>`).join('')||'<div class="empty">No presentations yet.</div>';l.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>{document.getElementById('dlg-presets').close();save();load(b.dataset.open);});document.getElementById('dlg-presets').showModal();};
